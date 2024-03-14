@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-Here's the Python 3 compatible version of the provided code, along with explanations of essential changes and considerations for seamless migration:
-Python
-
 import getopt
 import sys
 import os
