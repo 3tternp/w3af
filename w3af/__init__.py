@@ -1,7 +1,7 @@
 """
 __init__.py
 
-Copyright 2013 Andres Riancho
+Copyright 2024 Andres Riancho
 
 This file is part of w3af, http://w3af.org/ .
 
@@ -21,11 +21,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 import os
 import gettext
+from pathlib import Path  # For modern path handling
 
-ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
+ROOT_PATH = Path(__file__).parent.resolve()
+CRAWL_PATH = ROOT_PATH / "plugins" / "crawl"
 
-# Shortcuts
-CRAWL_PATH = os.path.join(ROOT_PATH, 'plugins', 'crawl')
+# Translations
+gettext.install('w3af', ROOT_PATH / 'locales')
 
-# Translation stuff
-gettext.install('w3af', os.path.join(ROOT_PATH, 'locales'))
+# ... Other parts of the code
