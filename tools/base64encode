@@ -1,9 +1,8 @@
-#!/usr/bin/python
-
-'''
+#!/usr/bin/env python3
+"""
 base64encode.py
 
-Copyright 2006 Andres Riancho
+Copyright 2024 Andres Riancho
 
 This file is part of w3af, w3af.sourceforge.net .
 
@@ -13,50 +12,39 @@ the Free Software Foundation version 2 of the License.
 
 w3af is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with w3af; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-'''
-from __future__ import print_function
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+"""
 
 import base64
 import sys
-import getopt
+import argparse
+
 
 def usage():
     print('w3af - base64 encoder')
     print('')
     print('Options:')
-    print('    -h  Print this help message.')
-    print('    -e  String to be encoded.')
+    print('  -h, --help     Print this help message.')
+    print('  -e, --encode   String to be encoded.')
     print('')
     print('Example: base64encode -e encodeMeNow')
-    
-def main():
-    
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "he:", ["help", "encode"])
-    except getopt.GetoptError:
-        # print help information and exit:
-        usage()
-        sys.exit(2)
-    encode = None
-    for o, a in opts:
-        if o in ("-e", "--encode"):
-            encode = a
-        if o in ("-h", "--help"):
-            usage()
-            sys.exit()
 
-    if encode is None:
-            usage()
-            sys.exit()
-    print( base64.b64encode( encode) )
-        
+
+def main():
+    parser = argparse.ArgumentParser(description='w3af - base64 encoder')
+    parser.add_argument('-e', '--encode', required=True, help='String to be encoded')
+    args = parser.parse_args()
+
+    encoded_bytes = base64.b64encode(args.encode.encode())  # Encode as bytes
+    encoded_str = encoded_bytes.decode()  # Convert to string
+
+    print(encoded_str) 
+
+
 if __name__ == "__main__":
     main()
-  
