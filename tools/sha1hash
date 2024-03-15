@@ -1,6 +1,5 @@
-#!/usr/bin/python
-
-'''
+#!/usr/bin/env python3
+"""
 sha1hash.py
 
 Copyright 2006 Andres Riancho
@@ -13,51 +12,37 @@ the Free Software Foundation version 2 of the License.
 
 w3af is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with w3af; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+"""
 
-'''
-from __future__ import print_function
+import hashlib
+import argparse
 
-import sha
-import sys
-import getopt
 
 def usage():
     print('w3af - sha1 hash calculator')
     print('')
     print('Options:')
-    print('    -h  Print this help message.')
-    print('    -e  String to be hashed.')
+    print('  -h, --help     Print this help message.')
+    print('  -e, --encode   String to be hashed.')
     print('')
     print('Example: sha1hash -e makeHash')
-    
+
+
 def main():
-    
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "he:", ["help", "encode"])
-    except getopt.GetoptError:
-        # print help information and exit:
-        usage()
-        sys.exit(2)
-    encode = None
-    for o, a in opts:
-        if o in ("-e", "--encode"):
-            encode = a
-        if o in ("-h", "--help"):
-            usage()
-            sys.exit()
+    parser = argparse.ArgumentParser(description='w3af - sha1 hash calculator')
+    parser.add_argument('-e', '--encode', required=True, help='String to be hashed')
+    args = parser.parse_args()
 
-    if encode is None:
-            usage()
-            sys.exit()
+    encoded_bytes = args.encode.encode()  # Encode input as bytes
+    sha1_hash = hashlib.sha1(encoded_bytes).hexdigest()
+    print(sha1_hash)
 
-    print( sha.new(encode).hexdigest() )
-        
+
 if __name__ == "__main__":
     main()
-  
