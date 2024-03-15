@@ -1,9 +1,8 @@
-#!/usr/bin/python
-
-'''
+#!/usr/bin/env python3
+"""
 urldecode.py
 
-Copyright 2006 Andres Riancho
+Copyright 2024 Andres Riancho
 
 This file is part of w3af, w3af.sourceforge.net .
 
@@ -13,51 +12,36 @@ the Free Software Foundation version 2 of the License.
 
 w3af is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with w3af; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+"""
 
-'''
-from __future__ import print_function
+import urllib.parse
+import argparse
 
-import urllib
-import sys
-import getopt
 
 def usage():
     print('w3af - urldecoder')
     print('')
     print('Options:')
-    print('    -h  Print this help message.')
-    print('    -d  String to be decoded.')
+    print('  -h, --help     Print this help message.')
+    print('  -d, --decode   String to be decoded.')
     print('')
     print('Example: urldecode -d decodeMeNow')
-    
-def main():
-    
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "hd:", ["help", "decode"])
-    except getopt.GetoptError:
-        # print help information and exit:
-        usage()
-        sys.exit(2)
-    decode = None
-    for o, a in opts:
-        if o in ("-d", "--decode"):
-            decode = a
-        if o in ("-h", "--help"):
-            usage()
-            sys.exit()
 
-    if decode is None:
-            usage()
-            sys.exit()
-    else:
-        print( urllib.unquote_plus( decode ) )
-        
+
+def main():
+    parser = argparse.ArgumentParser(description='w3af - urldecoder')
+    parser.add_argument('-d', '--decode', required=True, help='String to be decoded')
+    args = parser.parse_args()
+
+    decoded_string = urllib.parse.unquote_plus(args.decode)
+    print(decoded_string)
+
+
 if __name__ == "__main__":
     main()
-  
